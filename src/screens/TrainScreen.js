@@ -160,7 +160,7 @@ const trains = [
   },
 ];
 
-const TrainScreen = () => {
+const TrainScreen = ({ navigation }) => {
   return (
     <ScrollView
       style={styles.container}
@@ -171,8 +171,11 @@ const TrainScreen = () => {
         Train Management
       </Text>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>+ Add Train</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('AddTrain')}
+      >
+        <Text style={styles.buttonText}>➕ Add Train</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}>
@@ -211,9 +214,9 @@ const styles = StyleSheet.create({
 
   container: {
     container: {
-  flex: 1,
-  backgroundColor: '#F5F6FA',
-},
+      flex: 1,
+      backgroundColor: '#F5F6FA',
+    },
   },
 
   title: {
@@ -265,10 +268,10 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 7,
   },
- content: {
-  padding: 20,
-  paddingBottom: 40,
-},
+  content: {
+    padding: 20,
+    paddingBottom: 40,
+  },
 
 });
 

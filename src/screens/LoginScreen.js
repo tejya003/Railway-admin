@@ -30,9 +30,13 @@ export default function LoginScreen({ navigation }) {
         style={styles.input}
         placeholderTextColor="#999"
       />
-      <Text style={styles.forgotPassword}>
-        Forgot Password?
-      </Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('ForgotPassword')}
+      >
+        <Text style={styles.forgotPassword}>
+          Forgot Password?
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => {
         if (email === '' || password === '') {
           alert('Please enter email and password');
@@ -105,6 +109,9 @@ const styles = StyleSheet.create({
   forgotPassword: {
     width: '90%',
     textAlign: 'right',
+    textAlignVertical: 'center',
+    color: '#1E88E5',
+    marginTop: 10,      
     color: '#1E88E5',
     marginTop: 10,
     marginBottom: 20,

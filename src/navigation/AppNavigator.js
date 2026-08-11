@@ -11,6 +11,8 @@ import BookingScreen from '../screens/BookingScreen';
 import UserScreen from '../screens/UserScreen';
 import ReportScreen from '../screens/ReportScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
+import AddTrainScreen from '../screens/AddTrainScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +65,16 @@ const AppNavigator = () => {
                 <Stack.Screen
                     name="Settings"
                     component={SettingsScreen}
+                />
+                <Stack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPasswordScreen}
+                    options={{ title: 'Forgot Password' }}
+                />
+                <Stack.Screen
+                    name="AddTrain"
+                    component={AddTrainScreen}
+                    options={{ title: 'Add Train' }}
                 />
 
             </Stack.Navigator>

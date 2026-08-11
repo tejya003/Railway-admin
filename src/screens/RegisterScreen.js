@@ -42,7 +42,7 @@ const RegisterScreen = ({ navigation }) => {
         autoCapitalize="none"
       />
 
-      /* Get OTP Button */
+     { /* Get OTP Button */}
       <TouchableOpacity
         style={styles.otpButton}
         onPress={() => {
