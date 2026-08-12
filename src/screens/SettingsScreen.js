@@ -12,64 +12,44 @@ import { useLanguage } from './LanguageContext';
 const SettingsScreen = () => {
   const [showLanguage, setShowLanguage] = useState(false);
 
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <View style={styles.container}>
 
       {/* Title */}
       <Text style={styles.title}>
-        {language === 'en'
-          ? 'Settings'
-          : language === 'mr'
-          ? 'सेटिंग्ज'
-          : 'सेटिंग्स'}
+        {t.settings}
       </Text>
 
-      {/* Profile */}
+      {/* Profile Settings */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>
-          👤 {language === 'en'
-            ? 'Profile Settings'
-            : language === 'mr'
-            ? 'प्रोफाइल सेटिंग्ज'
-            : 'प्रोफाइल सेटिंग्स'}
+          👤 {t.profileSettings}
         </Text>
       </TouchableOpacity>
 
       {/* Notifications */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>
-          🔔 {language === 'en'
-            ? 'Notifications'
-            : language === 'mr'
-            ? 'सूचना'
-            : 'सूचनाएं'}
+          🔔 {t.notifications}
         </Text>
       </TouchableOpacity>
 
       {/* Security */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>
-          🔒 {language === 'en'
-            ? 'Security'
-            : language === 'mr'
-            ? 'सुरक्षा'
-            : 'सुरक्षा'}
+          🔒 {t.security}
         </Text>
       </TouchableOpacity>
 
-      {/* Language Button */}
+      {/* Language */}
       <TouchableOpacity
         style={styles.button}
         onPress={() => setShowLanguage(true)}
       >
         <Text style={styles.buttonText}>
-          🌐 {language === 'en'
-            ? 'Language'
-            : language === 'mr'
-            ? 'भाषा'
-            : 'भाषा'}
+          🌐 {t.language}
         </Text>
       </TouchableOpacity>
 
@@ -83,13 +63,8 @@ const SettingsScreen = () => {
 
           <View style={styles.languageBox}>
 
-            {/* Modal Title */}
             <Text style={styles.languageTitle}>
-              {language === 'en'
-                ? 'Select Language'
-                : language === 'mr'
-                ? 'भाषा निवडा'
-                : 'भाषा चुनें'}
+              {t.selectLanguage}
             </Text>
 
             {/* English */}
@@ -137,11 +112,7 @@ const SettingsScreen = () => {
               onPress={() => setShowLanguage(false)}
             >
               <Text style={styles.closeText}>
-                {language === 'en'
-                  ? 'Close'
-                  : language === 'mr'
-                  ? 'बंद करा'
-                  : 'बंद करें'}
+                {t.close}
               </Text>
             </TouchableOpacity>
 

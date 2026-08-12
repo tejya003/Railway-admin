@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLanguage } from './LanguageContext';
 
 const DashboardScreen = ({ navigation }) => {
-  const { language } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -20,22 +20,14 @@ const DashboardScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={true}
       >
 
-        {/* Title */}
+        {/* Dashboard Title */}
         <Text style={styles.title}>
-          {language === 'en'
-            ? 'Railway Admin Dashboard'
-            : language === 'mr'
-            ? 'रेल्वे ॲडमिन डॅशबोर्ड'
-            : 'रेलवे एडमिन डैशबोर्ड'}
+          {t.dashboard}
         </Text>
 
         {/* Welcome */}
         <Text style={styles.welcome}>
-          {language === 'en'
-            ? 'Welcome Admin'
-            : language === 'mr'
-            ? 'स्वागत आहे ॲडमिन'
-            : 'स्वागत है एडमिन'}
+          {t.welcome}
         </Text>
 
         {/* Cards */}
@@ -46,14 +38,12 @@ const DashboardScreen = ({ navigation }) => {
             style={styles.card}
             onPress={() => navigation.navigate('Train')}
           >
-            <Text style={styles.cardNumber}>25</Text>
+            <Text style={styles.cardNumber}>
+              25
+            </Text>
 
             <Text style={styles.cardTitle}>
-              {language === 'en'
-                ? 'Total Trains'
-                : language === 'mr'
-                ? 'एकूण ट्रेन'
-                : 'कुल ट्रेन'}
+              {t.totalTrains}
             </Text>
           </TouchableOpacity>
 
@@ -62,14 +52,12 @@ const DashboardScreen = ({ navigation }) => {
             style={styles.card}
             onPress={() => navigation.navigate('User')}
           >
-            <Text style={styles.cardNumber}>150</Text>
+            <Text style={styles.cardNumber}>
+              150
+            </Text>
 
             <Text style={styles.cardTitle}>
-              {language === 'en'
-                ? 'Total Users'
-                : language === 'mr'
-                ? 'एकूण वापरकर्ते'
-                : 'कुल उपयोगकर्ता'}
+              {t.totalUsers}
             </Text>
           </TouchableOpacity>
 
@@ -78,14 +66,12 @@ const DashboardScreen = ({ navigation }) => {
             style={styles.card}
             onPress={() => navigation.navigate('Booking')}
           >
-            <Text style={styles.cardNumber}>320</Text>
+            <Text style={styles.cardNumber}>
+              320
+            </Text>
 
             <Text style={styles.cardTitle}>
-              {language === 'en'
-                ? 'Total Bookings'
-                : language === 'mr'
-                ? 'एकूण बुकिंग'
-                : 'कुल बुकिंग'}
+              {t.totalBookings}
             </Text>
           </TouchableOpacity>
 
@@ -95,11 +81,7 @@ const DashboardScreen = ({ navigation }) => {
         <View style={styles.managementContainer}>
 
           <Text style={styles.sectionTitle}>
-            {language === 'en'
-              ? 'Management'
-              : language === 'mr'
-              ? 'व्यवस्थापन'
-              : 'प्रबंधन'}
+            {t.management}
           </Text>
 
           {/* Row 1 */}
@@ -110,11 +92,7 @@ const DashboardScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('Train')}
             >
               <Text style={styles.managementText}>
-                {language === 'en'
-                  ? 'Train Management'
-                  : language === 'mr'
-                  ? 'ट्रेन व्यवस्थापन'
-                  : 'ट्रेन प्रबंधन'}
+                {t.trainManagement}
               </Text>
             </TouchableOpacity>
 
@@ -123,11 +101,7 @@ const DashboardScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('Station')}
             >
               <Text style={styles.managementText}>
-                {language === 'en'
-                  ? 'Station Management'
-                  : language === 'mr'
-                  ? 'स्टेशन व्यवस्थापन'
-                  : 'स्टेशन प्रबंधन'}
+                {t.stationManagement}
               </Text>
             </TouchableOpacity>
 
@@ -141,11 +115,7 @@ const DashboardScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('Booking')}
             >
               <Text style={styles.managementText}>
-                {language === 'en'
-                  ? 'Booking Management'
-                  : language === 'mr'
-                  ? 'बुकिंग व्यवस्थापन'
-                  : 'बुकिंग प्रबंधन'}
+                {t.bookingManagement}
               </Text>
             </TouchableOpacity>
 
@@ -154,11 +124,7 @@ const DashboardScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('User')}
             >
               <Text style={styles.managementText}>
-                {language === 'en'
-                  ? 'User Management'
-                  : language === 'mr'
-                  ? 'वापरकर्ता व्यवस्थापन'
-                  : 'उपयोगकर्ता प्रबंधन'}
+                {t.userManagement}
               </Text>
             </TouchableOpacity>
 
@@ -175,11 +141,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Report')}
           >
             <Text style={styles.bottomText}>
-              📊 {language === 'en'
-                ? 'Reports'
-                : language === 'mr'
-                ? 'अहवाल'
-                : 'रिपोर्ट'}
+              📊 {t.reports}
             </Text>
           </TouchableOpacity>
 
@@ -189,11 +151,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Settings')}
           >
             <Text style={styles.bottomText}>
-              ⚙️ {language === 'en'
-                ? 'Settings'
-                : language === 'mr'
-                ? 'सेटिंग्ज'
-                : 'सेटिंग्स'}
+              ⚙️ {t.settings}
             </Text>
           </TouchableOpacity>
 
@@ -203,11 +161,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Login')}
           >
             <Text style={styles.logoutText}>
-              🚪 {language === 'en'
-                ? 'Logout'
-                : language === 'mr'
-                ? 'लॉगआउट'
-                : 'लॉगआउट'}
+              🚪 {t.logout}
             </Text>
           </TouchableOpacity>
 

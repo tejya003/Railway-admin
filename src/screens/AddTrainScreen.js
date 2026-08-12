@@ -9,7 +9,12 @@ import {
   Alert,
 } from 'react-native';
 
+import { useLanguage } from './LanguageContext';
+
 const AddTrainScreen = ({ navigation, route }) => {
+
+  const { t } = useLanguage();
+
   const [trainNumber, setTrainNumber] = useState('');
   const [trainName, setTrainName] = useState('');
   const [from, setFrom] = useState('');
@@ -18,86 +23,107 @@ const AddTrainScreen = ({ navigation, route }) => {
   const [arrival, setArrival] = useState('');
 
   const handleAddTrain = () => {
-  if (
-    trainNumber === '' ||
-    trainName === '' ||
-    from === '' ||
-    to === '' ||
-    departure === '' ||
-    arrival === ''
-  ) {
-    Alert.alert('Error', 'Please fill all fields');
-    return;
-  }
 
-  const newTrain = {
-    number: trainNumber,
-    name: trainName,
-    from: from,
-    to: to,
+    if (
+      trainNumber === '' ||
+      trainName === '' ||
+      from === '' ||
+      to === '' ||
+      departure === '' ||
+      arrival === ''
+    ) {
+      Alert.alert(
+        t.error,
+        t.fillAllFields
+      );
+      return;
+    }
+
+    const newTrain = {
+      number: trainNumber,
+      name: trainName,
+      from: from,
+      to: to,
+    };
+
+    route.params?.onAddTrain(newTrain);
+
+    Alert.alert(
+      t.success,
+      t.trainAddedSuccessfully
+    );
+
+    navigation.goBack();
   };
 
-  route.params?.onAddTrain(newTrain);
-
-  Alert.alert('Success', 'Train added successfully');
-
-  navigation.goBack();
-};
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       keyboardShouldPersistTaps="handled"
     >
-      <Text style={styles.title}>Add Train</Text>
 
+      {/* Title */}
+      <Text style={styles.title}>
+        {t.addTrain}
+      </Text>
+
+      {/* Train Number */}
       <TextInput
-        placeholder="Enter Train Number"
+        placeholder={t.enterTrainNumber}
         style={styles.input}
         value={trainNumber}
         onChangeText={setTrainNumber}
         keyboardType="number-pad"
       />
 
+      {/* Train Name */}
       <TextInput
-        placeholder="Enter Train Name"
+        placeholder={t.enterTrainName}
         style={styles.input}
         value={trainName}
         onChangeText={setTrainName}
       />
 
+      {/* From Station */}
       <TextInput
-        placeholder="Enter From Station"
+        placeholder={t.enterFromStation}
         style={styles.input}
         value={from}
         onChangeText={setFrom}
       />
 
+      {/* To Station */}
       <TextInput
-        placeholder="Enter To Station"
+        placeholder={t.enterToStation}
         style={styles.input}
         value={to}
         onChangeText={setTo}
       />
 
+      {/* Departure */}
       <TextInput
-        placeholder="Departure Time"
+        placeholder={t.departureTime}
         style={styles.input}
         value={departure}
         onChangeText={setDeparture}
       />
 
+      {/* Arrival */}
       <TextInput
-        placeholder="Arrival Time"
+        placeholder={t.arrivalTime}
         style={styles.input}
         value={arrival}
         onChangeText={setArrival}
       />
 
+      {/* Add Button */}
       <TouchableOpacity
         style={styles.button}
         onPress={handleAddTrain}
       >
-        <Text style={styles.buttonText}>Add Train</Text>
+        <Text style={styles.buttonText}>
+          {t.addTrain}
+        </Text>
       </TouchableOpacity>
 
     </ScrollView>
@@ -105,6 +131,7 @@ const AddTrainScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flexGrow: 1,
     padding: 25,
@@ -142,6 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+
 });
 
 export default AddTrainScreen;

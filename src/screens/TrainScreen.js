@@ -7,6 +7,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import { useLanguage } from './LanguageContext';
+
 const trains = [
   {
     number: '12001',
@@ -161,17 +163,24 @@ const trains = [
 ];
 
 const TrainScreen = ({ navigation }) => {
+
   const [trainList, setTrainList] = useState(trains);
+
+  const { t } = useLanguage();
+
   return (
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={true}
     >
+
+      {/* Title */}
       <Text style={styles.title}>
-        Train Management
+        {t.trainManagement}
       </Text>
 
+      {/* Add Train */}
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
@@ -182,27 +191,41 @@ const TrainScreen = ({ navigation }) => {
           })
         }
       >
-        <Text style={styles.buttonText}>➕ Add Train</Text>
+        <Text style={styles.buttonText}>
+          ➕ {t.addTrain}
+        </Text>
       </TouchableOpacity>
 
+      {/* Edit Train */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>✏️ Edit Train</Text>
+        <Text style={styles.buttonText}>
+          ✏️ {t.editTrain}
+        </Text>
       </TouchableOpacity>
 
+      {/* Search Train */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🔍 Search Train</Text>
+        <Text style={styles.buttonText}>
+          🔍 {t.searchTrain}
+        </Text>
       </TouchableOpacity>
 
+      {/* Delete Train */}
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🗑️ Delete Train</Text>
+        <Text style={styles.buttonText}>
+          🗑️ {t.deleteTrain}
+        </Text>
       </TouchableOpacity>
 
+      {/* Total Trains */}
       <Text style={styles.listTitle}>
-        Total Trains: {trainList.length}
+        {t.totalTrains}: {trainList.length}
       </Text>
 
+      {/* Train List */}
       {trainList.map((train, index) => (
         <View key={index} style={styles.trainCard}>
+
           <Text style={styles.trainName}>
             {train.number} - {train.name}
           </Text>
@@ -210,9 +233,9 @@ const TrainScreen = ({ navigation }) => {
           <Text style={styles.route}>
             {train.from} → {train.to}
           </Text>
+
         </View>
       ))}
-
 
     </ScrollView>
   );
@@ -221,10 +244,8 @@ const TrainScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 
   container: {
-    container: {
-      flex: 1,
-      backgroundColor: '#F5F6FA',
-    },
+    flex: 1,
+    backgroundColor: '#F5F6FA',
   },
 
   title: {
@@ -276,6 +297,7 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 7,
   },
+
   content: {
     padding: 20,
     paddingBottom: 40,

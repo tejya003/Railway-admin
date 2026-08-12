@@ -6,9 +6,15 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 
+import { useLanguage } from './LanguageContext';
+
 const RegisterScreen = ({ navigation }) => {
+
+  const { t } = useLanguage();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,17 +30,22 @@ const RegisterScreen = ({ navigation }) => {
       keyboardShouldPersistTaps="handled"
     >
 
-      <Text style={styles.title}>Create Account</Text>
+      {/* Title */}
+      <Text style={styles.title}>
+        {t.createAccount}
+      </Text>
 
+      {/* Name */}
       <TextInput
-        placeholder="Enter Name"
+        placeholder={t.enterName}
         style={styles.input}
         value={name}
         onChangeText={setName}
       />
 
+      {/* Email */}
       <TextInput
-        placeholder="Enter Email"
+        placeholder={t.enterEmail}
         style={styles.input}
         value={email}
         onChangeText={setEmail}
@@ -42,96 +53,255 @@ const RegisterScreen = ({ navigation }) => {
         autoCapitalize="none"
       />
 
-     { /* Get OTP Button */}
+      {/* Get OTP */}
       <TouchableOpacity
         style={styles.otpButton}
-        onPress={() => {
+        onPress={async () => {
+
           const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
           if (email.trim() === '') {
-            alert('Please enter email');
+
+            Alert.alert(
+              t.error,
+              t.enterEmail
+            );
+
           } else if (!emailPattern.test(email.trim())) {
-            alert('Please enter a valid email address');
+
+            Alert.alert(
+              t.error,
+              t.validEmail
+            );
+
           } else {
-            setOtpSent(true);
-            alert('OTP sent to your email');
+
+            try {
+
+              const response = await fetch(
+                'http://192.168.1.10:5000/api/auth/send-otp',
+                {
+                  method: 'POST',
+
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+
+                  body: JSON.stringify({
+                    email: email.trim(),
+                  }),
+                }
+              );
+
+              const data = await response.json();
+
+              console.log('OTP API Response:', data);
+
+              if (response.ok) {
+
+                setOtpSent(true);
+
+                Alert.alert(
+                  t.success,
+                  t.otpSent
+                );
+
+              } else {
+
+                Alert.alert(
+                  t.error,
+                  data.message || 'Failed to send OTP'
+                );
+
+              }
+
+            } catch (error) {
+
+              console.log('OTP Error:', error);
+
+              Alert.alert(
+                t.error,
+                'Unable to connect to server'
+              );
+
+            }
           }
         }}
       >
-        <Text style={styles.buttonText}>Get OTP</Text>
+        <Text style={styles.buttonText}>
+          {t.getOtp}
+        </Text>
       </TouchableOpacity>
 
       {/* OTP Section */}
-      {otpSent && (
-        <>
-          <TextInput
-            placeholder="Enter OTP"
-            style={styles.input}
-            value={otp}
-            onChangeText={setOtp}
-            keyboardType="number-pad"
-            maxLength={6}
-          />
+     {otpSent && (
+  <>
+    <TextInput
+      placeholder={t.enterOtp}
+      style={styles.input}
+      value={otp}
+      onChangeText={setOtp}
+      keyboardType="number-pad"
+      maxLength={6}
+    />
 
-          <TouchableOpacity
-            style={styles.otpButton}
-            onPress={() => {
-              if (otp === '') {
-                alert('Please enter OTP');
-              } else {
-                setOtpVerified(true);
-                alert('OTP Verified');
+    {!otpVerified && (
+      <TouchableOpacity
+        style={styles.otpButton}
+        onPress={async () => {
+
+          if (otp === '') {
+
+            Alert.alert(
+              t.error,
+              t.enterOtp
+            );
+
+            return;
+          }
+
+          try {
+
+            const response = await fetch(
+              'http://192.168.1.10:5000/api/auth/verify-otp',
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  email: email.trim(),
+                  otp: otp.trim(),
+                }),
               }
-            }}
-          >
-            <Text style={styles.buttonText}>Verify OTP</Text>
-          </TouchableOpacity>
-        </>
-      )}
+            );
 
+            const data = await response.json();
+
+            console.log('Verify OTP Response:', data);
+
+            if (response.ok) {
+
+              setOtpVerified(true);
+
+              Alert.alert(
+                t.success,
+                t.otpVerified
+              );
+
+            } else {
+
+              Alert.alert(
+                t.error,
+                data.message || 'Invalid OTP'
+              );
+
+            }
+
+          } catch (error) {
+
+            console.log('Verify OTP Error:', error);
+
+            Alert.alert(
+              t.error,
+              'Unable to connect to server'
+            );
+
+          }
+        }}
+      >
+        <Text style={styles.buttonText}>
+          {t.verifyOtp}
+        </Text>
+      </TouchableOpacity>
+    )}
+
+    {otpVerified && (
+      <Text
+        style={{
+          color: 'green',
+          fontSize: 16,
+          fontWeight: 'bold',
+          marginBottom: 15,
+        }}
+      >
+        ✓ {t.otpVerified}
+      </Text>
+    )}
+  </>
+)}
+
+      {/* Password */}
       <TextInput
-        placeholder="Enter Password"
+        placeholder={t.enterPassword}
         style={styles.input}
         value={password}
         onChangeText={setPassword}
         secureTextEntry={true}
       />
 
+      {/* Confirm Password */}
       <TextInput
-        placeholder="Confirm Password"
+        placeholder={t.confirmPassword}
         style={styles.input}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         secureTextEntry={true}
       />
 
-      {/* Register Button */}
+      {/* Register */}
       <TouchableOpacity
         style={styles.registerButton}
         onPress={() => {
+
           if (
             name === '' ||
             email === '' ||
             password === '' ||
             confirmPassword === ''
           ) {
-            alert('Please fill all fields');
+
+            Alert.alert(
+              t.error,
+              t.fillAllFields
+            );
+
           } else if (!otpVerified) {
-            alert('Please verify your email OTP');
+
+            Alert.alert(
+              t.error,
+              t.verifyEmailOtp
+            );
+
           } else if (password !== confirmPassword) {
-            alert('Passwords do not match');
+
+            Alert.alert(
+              t.error,
+              t.passwordMismatch
+            );
+
           } else {
-            alert('Registration Successful');
+
+            Alert.alert(
+              t.success,
+              t.registrationSuccessful
+            );
+
             navigation.goBack();
           }
         }}
       >
-        <Text style={styles.buttonText}>Register</Text>
+        <Text style={styles.buttonText}>
+          {t.register}
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      {/* Login */}
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+      >
         <Text style={styles.loginText}>
-          Already have an account? Login
+          {t.alreadyAccountLogin}
         </Text>
       </TouchableOpacity>
 
@@ -140,6 +310,7 @@ const RegisterScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -192,6 +363,7 @@ const styles = StyleSheet.create({
     color: '#1E88E5',
     fontSize: 14,
   },
+
 });
 
 export default RegisterScreen;
