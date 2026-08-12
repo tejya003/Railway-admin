@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+
 import LoginScreen from '../screens/LoginScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -14,7 +15,18 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import AddTrainScreen from '../screens/AddTrainScreen';
 
+import PlatformManagement from '../screens/PlatformManagement';
+import PassengerManagement from '../screens/PassengerManagement';
+import AnnouncementManagement from '../screens/AnnouncementManagement';
+import StaffManagement from '../screens/StaffManagement';
+import ComplaintFeedback from '../screens/ComplaintFeedback';
+
+
+
 const Stack = createNativeStackNavigator();
+
+
+
 
 const AppNavigator = () => {
     return (
@@ -76,6 +88,27 @@ const AppNavigator = () => {
                     component={AddTrainScreen}
                     options={{ title: 'Add Train' }}
                 />
+
+
+                <Stack.Screen name="PlatformManagement"
+                    component={PlatformManagement}
+                    options={{ title: 'PlatformManagement' }} />
+
+                <Stack.Screen name="PassengerManagement"
+                    component={PassengerManagement}
+                    options={{ title: 'PassengerManagement' }} />
+
+                <Stack.Screen name="AnnouncementManagement"
+                    component={AnnouncementManagement}
+                    options={{ title: 'AnnouncementManagement' }} />
+
+                <Stack.Screen name="StaffManagement"
+                    component={StaffManagement}
+                    options={{ title: 'StaffManagement' }} />
+
+                <Stack.Screen name="ComplaintFeedback"
+                    component={ComplaintFeedback}
+                    options={{ title: 'ComplaintFeedback' }} />
 
             </Stack.Navigator>
         </NavigationContainer>

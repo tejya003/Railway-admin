@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const StationScreen = () => {
+const StationScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
@@ -9,20 +9,49 @@ const StationScreen = () => {
         Station Management
       </Text>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>+ Add Station</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('PlatformManagement')}
+      >
+        <Text style={styles.buttonText}>
+          Platform Management
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>✏️ Edit Station</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('PassengerManagement')}
+      >
+        <Text style={styles.buttonText}>
+          Passenger Management
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🔍 Search Station</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('StaffManagement')}
+      >
+        <Text style={styles.buttonText}>
+          Staff Management
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🗑️ Delete Station</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('AnnouncementManagement')}
+      >
+        <Text style={styles.buttonText}>
+          Announcement Management
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('ComplaintFeedback')}
+      >
+        <Text style={styles.buttonText}>
+          Complaint/Feedback
+        </Text>
       </TouchableOpacity>
 
     </View>
