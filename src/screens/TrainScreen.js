@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -161,6 +161,7 @@ const trains = [
 ];
 
 const TrainScreen = ({ navigation }) => {
+  const [trainList, setTrainList] = useState(trains);
   return (
     <ScrollView
       style={styles.container}
@@ -173,7 +174,13 @@ const TrainScreen = ({ navigation }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('AddTrain')}
+        onPress={() =>
+          navigation.navigate('AddTrain', {
+            onAddTrain: (newTrain) => {
+              setTrainList(prev => [...prev, newTrain]);
+            },
+          })
+        }
       >
         <Text style={styles.buttonText}>➕ Add Train</Text>
       </TouchableOpacity>
@@ -191,10 +198,10 @@ const TrainScreen = ({ navigation }) => {
       </TouchableOpacity>
 
       <Text style={styles.listTitle}>
-        Total Trains: {trains.length}
+        Total Trains: {trainList.length}
       </Text>
 
-      {trains.map((train, index) => (
+      {trainList.map((train, index) => (
         <View key={index} style={styles.trainCard}>
           <Text style={styles.trainName}>
             {train.number} - {train.name}
@@ -205,6 +212,7 @@ const TrainScreen = ({ navigation }) => {
           </Text>
         </View>
       ))}
+
 
     </ScrollView>
   );

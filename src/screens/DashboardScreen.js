@@ -1,8 +1,18 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useLanguage } from './LanguageContext';
 
 const DashboardScreen = ({ navigation }) => {
+  const { language } = useLanguage();
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
@@ -10,117 +20,206 @@ const DashboardScreen = ({ navigation }) => {
         showsVerticalScrollIndicator={true}
       >
 
+        {/* Title */}
         <Text style={styles.title}>
-          Railway Admin Dashboard
+          {language === 'en'
+            ? 'Railway Admin Dashboard'
+            : language === 'mr'
+            ? 'रेल्वे ॲडमिन डॅशबोर्ड'
+            : 'रेलवे एडमिन डैशबोर्ड'}
         </Text>
 
+        {/* Welcome */}
         <Text style={styles.welcome}>
-          Welcome Admin
+          {language === 'en'
+            ? 'Welcome Admin'
+            : language === 'mr'
+            ? 'स्वागत आहे ॲडमिन'
+            : 'स्वागत है एडमिन'}
         </Text>
+
+        {/* Cards */}
         <View style={styles.cardContainer}>
 
+          {/* Total Trains */}
           <TouchableOpacity
             style={styles.card}
             onPress={() => navigation.navigate('Train')}
           >
             <Text style={styles.cardNumber}>25</Text>
-            <Text style={styles.cardTitle}>Total Trains</Text>
+
+            <Text style={styles.cardTitle}>
+              {language === 'en'
+                ? 'Total Trains'
+                : language === 'mr'
+                ? 'एकूण ट्रेन'
+                : 'कुल ट्रेन'}
+            </Text>
           </TouchableOpacity>
 
+          {/* Total Users */}
           <TouchableOpacity
             style={styles.card}
             onPress={() => navigation.navigate('User')}
           >
             <Text style={styles.cardNumber}>150</Text>
-            <Text style={styles.cardTitle}>Total Users</Text>
+
+            <Text style={styles.cardTitle}>
+              {language === 'en'
+                ? 'Total Users'
+                : language === 'mr'
+                ? 'एकूण वापरकर्ते'
+                : 'कुल उपयोगकर्ता'}
+            </Text>
           </TouchableOpacity>
 
+          {/* Total Bookings */}
           <TouchableOpacity
             style={styles.card}
             onPress={() => navigation.navigate('Booking')}
           >
             <Text style={styles.cardNumber}>320</Text>
-            <Text style={styles.cardTitle}>Total Bookings</Text>
+
+            <Text style={styles.cardTitle}>
+              {language === 'en'
+                ? 'Total Bookings'
+                : language === 'mr'
+                ? 'एकूण बुकिंग'
+                : 'कुल बुकिंग'}
+            </Text>
           </TouchableOpacity>
-
-
 
         </View>
 
+        {/* Management */}
         <View style={styles.managementContainer}>
 
           <Text style={styles.sectionTitle}>
-            Management
+            {language === 'en'
+              ? 'Management'
+              : language === 'mr'
+              ? 'व्यवस्थापन'
+              : 'प्रबंधन'}
           </Text>
 
+          {/* Row 1 */}
           <View style={styles.managementRow}>
 
             <TouchableOpacity
               style={styles.managementButton}
               onPress={() => navigation.navigate('Train')}
             >
-              <Text style={styles.managementText}>Train Management</Text>
+              <Text style={styles.managementText}>
+                {language === 'en'
+                  ? 'Train Management'
+                  : language === 'mr'
+                  ? 'ट्रेन व्यवस्थापन'
+                  : 'ट्रेन प्रबंधन'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.managementButton}
               onPress={() => navigation.navigate('Station')}
             >
-              <Text style={styles.managementText}>Station Management</Text>
+              <Text style={styles.managementText}>
+                {language === 'en'
+                  ? 'Station Management'
+                  : language === 'mr'
+                  ? 'स्टेशन व्यवस्थापन'
+                  : 'स्टेशन प्रबंधन'}
+              </Text>
             </TouchableOpacity>
 
           </View>
 
+          {/* Row 2 */}
           <View style={styles.managementRow}>
 
             <TouchableOpacity
               style={styles.managementButton}
               onPress={() => navigation.navigate('Booking')}
             >
-              <Text style={styles.managementText}>Booking Management</Text>
+              <Text style={styles.managementText}>
+                {language === 'en'
+                  ? 'Booking Management'
+                  : language === 'mr'
+                  ? 'बुकिंग व्यवस्थापन'
+                  : 'बुकिंग प्रबंधन'}
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.managementButton}
               onPress={() => navigation.navigate('User')}
             >
-              <Text style={styles.managementText}>User Management</Text>
+              <Text style={styles.managementText}>
+                {language === 'en'
+                  ? 'User Management'
+                  : language === 'mr'
+                  ? 'वापरकर्ता व्यवस्थापन'
+                  : 'उपयोगकर्ता प्रबंधन'}
+              </Text>
             </TouchableOpacity>
 
           </View>
 
-
         </View>
+
+        {/* Bottom Buttons */}
         <View style={styles.bottomContainer}>
 
+          {/* Reports */}
           <TouchableOpacity
             style={styles.bottomButton}
             onPress={() => navigation.navigate('Report')}
           >
-            <Text style={styles.bottomText}>📊 Reports</Text>
+            <Text style={styles.bottomText}>
+              📊 {language === 'en'
+                ? 'Reports'
+                : language === 'mr'
+                ? 'अहवाल'
+                : 'रिपोर्ट'}
+            </Text>
           </TouchableOpacity>
 
+          {/* Settings */}
           <TouchableOpacity
             style={styles.bottomButton}
             onPress={() => navigation.navigate('Settings')}
           >
-            <Text style={styles.bottomText}>⚙️ Settings</Text>
+            <Text style={styles.bottomText}>
+              ⚙️ {language === 'en'
+                ? 'Settings'
+                : language === 'mr'
+                ? 'सेटिंग्ज'
+                : 'सेटिंग्स'}
+            </Text>
           </TouchableOpacity>
 
+          {/* Logout */}
           <TouchableOpacity
             style={styles.logoutButton}
             onPress={() => navigation.navigate('Login')}
           >
-            <Text style={styles.bottomText}>🌏;Logout</Text>
+            <Text style={styles.logoutText}>
+              🚪 {language === 'en'
+                ? 'Logout'
+                : language === 'mr'
+                ? 'लॉगआउट'
+                : 'लॉगआउट'}
+            </Text>
           </TouchableOpacity>
 
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     backgroundColor: '#F5F6FA',
@@ -139,6 +238,7 @@ const styles = StyleSheet.create({
     color: '#666666',
     marginTop: 8,
   },
+
   cardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -166,32 +266,38 @@ const styles = StyleSheet.create({
     color: '#666666',
     marginTop: 5,
   },
+
   managementContainer: {
     marginTop: 30,
   },
+
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#222',
     marginBottom: 15,
   },
+
   managementRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 15,
   },
+
   managementButton: {
     backgroundColor: '#1E88E5',
     padding: 15,
     borderRadius: 8,
     width: '48%',
   },
+
   managementText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
   bottomContainer: {
     marginTop: 20,
   },
@@ -217,9 +323,17 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: 'bold',
   },
+
+  logoutText: {
+    color: '#fff',
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+
   content: {
     paddingBottom: 20,
   },
+
 });
 
 export default DashboardScreen;

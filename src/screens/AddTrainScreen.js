@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 
-const AddTrainScreen = ({ navigation }) => {
+const AddTrainScreen = ({ navigation, route }) => {
   const [trainNumber, setTrainNumber] = useState('');
   const [trainName, setTrainName] = useState('');
   const [from, setFrom] = useState('');
@@ -18,23 +18,31 @@ const AddTrainScreen = ({ navigation }) => {
   const [arrival, setArrival] = useState('');
 
   const handleAddTrain = () => {
-    if (
-      trainNumber === '' ||
-      trainName === '' ||
-      from === '' ||
-      to === '' ||
-      departure === '' ||
-      arrival === ''
-    ) {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
-    }
+  if (
+    trainNumber === '' ||
+    trainName === '' ||
+    from === '' ||
+    to === '' ||
+    departure === '' ||
+    arrival === ''
+  ) {
+    Alert.alert('Error', 'Please fill all fields');
+    return;
+  }
 
-    Alert.alert('Success', 'Train added successfully');
-
-    navigation.goBack();
+  const newTrain = {
+    number: trainNumber,
+    name: trainName,
+    from: from,
+    to: to,
   };
 
+  route.params?.onAddTrain(newTrain);
+
+  Alert.alert('Success', 'Train added successfully');
+
+  navigation.goBack();
+};
   return (
     <ScrollView
       contentContainerStyle={styles.container}
