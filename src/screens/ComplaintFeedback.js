@@ -13,14 +13,7 @@ const ComplaintFeedback = () => {
   const [feedback, setFeedback] = useState('');
 
   const [feedbackList, setFeedbackList] = useState([
-    {
-      id: '1',
-      text: 'Cleanliness of the station is good.',
-    },
-    {
-      id: '2',
-      text: 'Platform information should be updated faster.',
-    },
+    
   ]);
 
   const handleSubmit = () => {

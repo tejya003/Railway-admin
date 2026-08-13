@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-const UserScreen = () => {
+const UserScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
@@ -9,20 +9,39 @@ const UserScreen = () => {
         User Management
       </Text>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>+ Add User</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('AddUser')}
+      >
+        <Text style={styles.buttonText}>
+          + Add User
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>✏️ Edit User</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('EditUser')}
+      >
+        <Text style={styles.buttonText}>
+          ✏️ Edit User
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🔍 Search User</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('SearchUser')}
+      >
+        <Text style={styles.buttonText}>
+          🔍 Search User
+        </Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🗑️ Delete User</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('DeleteUser')}
+      >
+        <Text style={styles.buttonText}>
+          🗑️ Delete User
+        </Text>
       </TouchableOpacity>
 
     </View>

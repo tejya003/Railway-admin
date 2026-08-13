@@ -40,11 +40,13 @@ const AddTrainScreen = ({ navigation, route }) => {
     }
 
     const newTrain = {
-      number: trainNumber,
-      name: trainName,
-      from: from,
-      to: to,
-    };
+  number: trainNumber,
+  name: trainName,
+  from: from,
+  to: to,
+  departure: departure,
+  arrival: arrival,
+};
 
     route.params?.onAddTrain(newTrain);
 

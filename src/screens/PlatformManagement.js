@@ -10,9 +10,7 @@ import {
 
 const PlatformManagement = () => {
   const [platforms, setPlatforms] = useState([
-    { id: '1', name: 'Platform 1' },
-    { id: '2', name: 'Platform 2' },
-    { id: '3', name: 'Platform 3' },
+   
   ]);
 
   const [newPlatform, setNewPlatform] = useState('');

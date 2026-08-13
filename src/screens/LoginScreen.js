@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useLanguage } from './LanguageContext';
 
@@ -16,6 +17,7 @@ export default function LoginScreen({ navigation }) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const { t } = useLanguage();
 
@@ -45,14 +47,27 @@ export default function LoginScreen({ navigation }) {
       />
 
       {/* Password */}
-      <TextInput
-        placeholder={t.enterPassword}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={setPassword}
-        style={styles.input}
-        placeholderTextColor="#999"
-      />
+<View style={styles.passwordContainer}>
+  <TextInput
+    placeholder={t.enterPassword}
+    secureTextEntry={!showPassword}
+    value={password}
+    onChangeText={setPassword}
+    style={styles.passwordInput}
+    placeholderTextColor="#999"
+  />
+
+  <TouchableOpacity
+    onPress={() => setShowPassword(!showPassword)}
+    style={styles.eyeButton}
+  >
+    <Text style={styles.eyeIcon}>
+      {showPassword ? '👁️' : '👁️‍🗨️'}
+    </Text>
+  </TouchableOpacity>
+</View>
+
+      
 
       {/* Forgot Password */}
       <TouchableOpacity
@@ -63,9 +78,11 @@ export default function LoginScreen({ navigation }) {
         </Text>
       </TouchableOpacity>
 
+
+
       {/* Login Button */}
       <TouchableOpacity
-        onPress={() => {
+  onPress={async () => {
 
           if (email === '' || password === '') {
 
@@ -74,11 +91,13 @@ export default function LoginScreen({ navigation }) {
               t.enterEmailPassword
             );
 
-          } else {
+         } else {
 
-            navigation.navigate('Dashboard');
+  await AsyncStorage.setItem('userEmail', email);
 
-          }
+  navigation.navigate('Dashboard');
+
+}
 
         }}
         style={styles.loginButton}
@@ -143,6 +162,36 @@ const styles = StyleSheet.create({
     color: '#1686e8',
   },
 
+  passwordContainer: {
+  width: '90%',
+  height: 50,
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderWidth: 2,
+  borderColor: '#0a0202',
+  borderRadius: 8,
+  marginTop: 20,
+  backgroundColor: '#F5F5F5',
+},
+
+passwordInput: {
+  flex: 1,
+  height: 50,
+  padding: 10,
+  color: '#1686e8',
+},
+
+eyeButton: {
+  width: 50,
+  height: 50,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+
+eyeIcon: {
+  fontSize: 22,
+},
+
   loginButton: {
     width: '90%',
     backgroundColor: '#651abb',
@@ -200,5 +249,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginBottom: 20,
   },
+
+ 
 
 });

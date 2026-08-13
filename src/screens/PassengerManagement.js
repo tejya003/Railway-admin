@@ -3,9 +3,7 @@ import { View, Text, StyleSheet, FlatList, TextInput, Button } from 'react-nativ
 
 const PassengerManagement = () => {
     const [passengers, setPassengers] = useState([
-    { id: '1', name: 'Rahul Patil' },
-    { id: '2', name: 'Sneha Joshi' },
-    { id: '3', name: 'Amit Deshmukh' },
+    
   ]);
 
 const [newPassenger, setNewPassenger] = useState('');
@@ -25,7 +23,7 @@ const [newPassenger, setNewPassenger] = useState('');
       <Text style={styles.title}>Passenger Management Screen</Text>
 
 <TextInput
-        style={styles.input}
+        style={styles.title}
         placeholder="Enter passenger name"
         value={newPassenger}
         onChangeText={setNewPassenger}
@@ -49,14 +47,45 @@ const [newPassenger, setNewPassenger] = useState('');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
+    padding: 20,
   },
+
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
+  },
+
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+  },
+
+  list: {
+    width: '100%',
+    marginTop: 20,
+  },
+
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+    marginBottom: 10,
+    backgroundColor: '#F5F6FA',
+    borderRadius: 8,
+  },
+
+  item: {
+    fontSize: 17,
+    color: '#333',
+    flex: 1,
   },
 });
 

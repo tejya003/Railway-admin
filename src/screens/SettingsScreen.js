@@ -9,7 +9,7 @@ import {
 
 import { useLanguage } from './LanguageContext';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
   const [showLanguage, setShowLanguage] = useState(false);
 
   const { language, setLanguage, t } = useLanguage();
@@ -17,27 +17,35 @@ const SettingsScreen = () => {
   return (
     <View style={styles.container}>
 
-      {/* Title */}
       <Text style={styles.title}>
         {t.settings}
       </Text>
 
       {/* Profile Settings */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('ProfileSettings')}
+      >
         <Text style={styles.buttonText}>
           👤 {t.profileSettings}
         </Text>
       </TouchableOpacity>
 
       {/* Notifications */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Notifications')}
+      >
         <Text style={styles.buttonText}>
           🔔 {t.notifications}
         </Text>
       </TouchableOpacity>
 
       {/* Security */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Security')}
+      >
         <Text style={styles.buttonText}>
           🔒 {t.security}
         </Text>
@@ -67,7 +75,6 @@ const SettingsScreen = () => {
               {t.selectLanguage}
             </Text>
 
-            {/* English */}
             <TouchableOpacity
               style={styles.languageOption}
               onPress={() => {
@@ -80,7 +87,6 @@ const SettingsScreen = () => {
               </Text>
             </TouchableOpacity>
 
-            {/* Marathi */}
             <TouchableOpacity
               style={styles.languageOption}
               onPress={() => {
@@ -93,7 +99,6 @@ const SettingsScreen = () => {
               </Text>
             </TouchableOpacity>
 
-            {/* Hindi */}
             <TouchableOpacity
               style={styles.languageOption}
               onPress={() => {
@@ -106,7 +111,6 @@ const SettingsScreen = () => {
               </Text>
             </TouchableOpacity>
 
-            {/* Close */}
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setShowLanguage(false)}

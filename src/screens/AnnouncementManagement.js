@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Button, FlatList } from 'react-native';
 const AnnouncementManagement = () => {
     const [announcements, setAnnouncements] = useState([
-    { id: '1', message: 'Train delayed by 30 minutes' },
-    { id: '2', message: 'Platform change: Train 123 → Platform 2' },
-    { id: '3', message: 'New train added to schedule' },
+   
   ]);
 
 const [newAnnouncement, setNewAnnouncement] = useState('');
@@ -48,14 +46,45 @@ const [newAnnouncement, setNewAnnouncement] = useState('');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
+    padding: 20,
   },
+
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
+  },
+
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 15,
+  },
+
+  list: {
+    width: '100%',
+    marginTop: 20,
+  },
+
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 12,
+    marginBottom: 10,
+    backgroundColor: '#F5F6FA',
+    borderRadius: 8,
+  },
+
+  item: {
+    fontSize: 17,
+    color: '#333',
+    flex: 1,
   },
 });
 

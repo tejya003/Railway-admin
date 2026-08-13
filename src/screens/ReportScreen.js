@@ -1,7 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
-const ReportScreen = () => {
+const ReportScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
@@ -9,20 +14,44 @@ const ReportScreen = () => {
         Reports
       </Text>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>📊 Booking Report</Text>
+      {/* Booking Report */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('BookingReport')}
+      >
+        <Text style={styles.buttonText}>
+          📊 Booking Report
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>🚆 Train Report</Text>
+      {/* Train Report */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('TrainReport')}
+      >
+        <Text style={styles.buttonText}>
+          🚆 Train Report
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>👥 User Report</Text>
+      {/* User Report */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('UserReport')}
+      >
+        <Text style={styles.buttonText}>
+          👥 User Report
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>💰 Revenue Report</Text>
+      {/* Revenue Report */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('RevenueReport')}
+      >
+        <Text style={styles.buttonText}>
+          💰 Revenue Report
+        </Text>
       </TouchableOpacity>
 
     </View>

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -11,6 +13,23 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLanguage } from './LanguageContext';
 
 const DashboardScreen = ({ navigation }) => {
+
+const [trainCount, setTrainCount] = useState(25);
+
+useFocusEffect(
+  React.useCallback(() => {
+    const loadTrainCount = async () => {
+      const count = await AsyncStorage.getItem('trainCount');
+
+      if (count !== null) {
+        setTrainCount(Number(count));
+      }
+    };
+
+    loadTrainCount();
+  }, [])
+);
+
   const { t } = useLanguage();
 
   return (
@@ -39,7 +58,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Train')}
           >
             <Text style={styles.cardNumber}>
-              25
+              {trainCount}
             </Text>
 
             <Text style={styles.cardTitle}>
@@ -53,7 +72,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('User')}
           >
             <Text style={styles.cardNumber}>
-              150
+              00
             </Text>
 
             <Text style={styles.cardTitle}>
@@ -67,7 +86,7 @@ const DashboardScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Booking')}
           >
             <Text style={styles.cardNumber}>
-              320
+              00
             </Text>
 
             <Text style={styles.cardTitle}>

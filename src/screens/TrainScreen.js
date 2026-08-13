@@ -5,7 +5,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  TextInput,
+  Alert,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 import { useLanguage } from './LanguageContext';
 
@@ -163,10 +168,150 @@ const trains = [
 ];
 
 const TrainScreen = ({ navigation }) => {
-
   const [trainList, setTrainList] = useState(trains);
 
+   useFocusEffect(
+    React.useCallback(() => {
+      const saveTrainCount = async () => {
+        await AsyncStorage.setItem(
+          'trainCount',
+          trainList.length.toString()
+        );
+      };
+
+      saveTrainCount();
+    }, [trainList])
+  );
+
+  const [mode, setMode] = useState(null);
+
+  const [searchText, setSearchText] = useState('');
+
+  const [editingTrain, setEditingTrain] = useState(null);
+
+  const [editNumber, setEditNumber] = useState('');
+  const [editName, setEditName] = useState('');
+  const [editFrom, setEditFrom] = useState('');
+  const [editTo, setEditTo] = useState('');
+
   const { t } = useLanguage();
+
+  // =========================
+  // ADD TRAIN
+  // =========================
+
+  const handleAddTrain = () => {
+    navigation.navigate('AddTrain', {
+      onAddTrain: (newTrain) => {
+        setTrainList((prev) => [...prev, newTrain]);
+      },
+    });
+  };
+
+  // =========================
+  // SEARCH TRAIN
+  // =========================
+
+  const filteredTrains = trainList.filter((train) => {
+    const search = searchText.toLowerCase();
+
+    return (
+      train.number.toLowerCase().includes(search) ||
+      train.name.toLowerCase().includes(search) ||
+      train.from.toLowerCase().includes(search) ||
+      train.to.toLowerCase().includes(search)
+    );
+  });
+
+  // =========================
+  // EDIT TRAIN
+  // =========================
+
+  const startEdit = (train) => {
+    setEditingTrain(train);
+
+    setEditNumber(train.number);
+    setEditName(train.name);
+    setEditFrom(train.from);
+    setEditTo(train.to);
+  };
+
+  const saveEdit = () => {
+    if (
+      editNumber.trim() === '' ||
+      editName.trim() === '' ||
+      editFrom.trim() === '' ||
+      editTo.trim() === ''
+    ) {
+      Alert.alert('Error', 'Please fill all fields.');
+      return;
+    }
+
+    setTrainList((prev) =>
+      prev.map((train) =>
+        train.number === editingTrain.number
+          ? {
+            number: editNumber,
+            name: editName,
+            from: editFrom,
+            to: editTo,
+          }
+          : train
+      )
+    );
+
+    setEditingTrain(null);
+
+    Alert.alert('Success', 'Train updated successfully.');
+  };
+
+  // =========================
+  // DELETE TRAIN
+  // =========================
+
+  const deleteTrain = (train) => {
+    Alert.alert(
+      'Delete Train',
+      `Are you sure you want to delete ${train.name}?`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            setTrainList((prev) =>
+              prev.filter(
+                (item) => item.number !== train.number
+              )
+            );
+          },
+        },
+      ]
+    );
+  };
+
+  // =========================
+  // BUTTON MODE
+  // =========================
+
+  const handleEditButton = () => {
+    setMode(mode === 'edit' ? null : 'edit');
+    setEditingTrain(null);
+  };
+
+  const handleSearchButton = () => {
+    setMode(mode === 'search' ? null : 'search');
+    setSearchText('');
+    setEditingTrain(null);
+  };
+
+  const handleDeleteButton = () => {
+    setMode(mode === 'delete' ? null : 'delete');
+    setEditingTrain(null);
+  };
 
   return (
     <ScrollView
@@ -175,56 +320,80 @@ const TrainScreen = ({ navigation }) => {
       showsVerticalScrollIndicator={true}
     >
 
-      {/* Title */}
+      {/* TITLE */}
+
       <Text style={styles.title}>
         {t.trainManagement}
       </Text>
 
-      {/* Add Train */}
+      {/* ADD TRAIN */}
+
       <TouchableOpacity
         style={styles.button}
-        onPress={() =>
-          navigation.navigate('AddTrain', {
-            onAddTrain: (newTrain) => {
-              setTrainList(prev => [...prev, newTrain]);
-            },
-          })
-        }
+        onPress={handleAddTrain}
       >
         <Text style={styles.buttonText}>
           ➕ {t.addTrain}
         </Text>
       </TouchableOpacity>
 
-      {/* Edit Train */}
-      <TouchableOpacity style={styles.button}>
+      {/* EDIT TRAIN */}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('EditTrain')}
+      >
         <Text style={styles.buttonText}>
           ✏️ {t.editTrain}
         </Text>
       </TouchableOpacity>
 
-      {/* Search Train */}
-      <TouchableOpacity style={styles.button}>
+      {/* SEARCH TRAIN */}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSearchButton}
+      >
         <Text style={styles.buttonText}>
           🔍 {t.searchTrain}
         </Text>
       </TouchableOpacity>
 
-      {/* Delete Train */}
-      <TouchableOpacity style={styles.button}>
+      {/* DELETE TRAIN */}
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleDeleteButton}
+      >
         <Text style={styles.buttonText}>
           🗑️ {t.deleteTrain}
         </Text>
       </TouchableOpacity>
 
-      {/* Total Trains */}
+      {/* SEARCH BOX */}
+
+      {mode === 'search' && (
+        <TextInput
+          style={styles.input}
+          placeholder="Search train number, name or station"
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      )}
+
+      {/* TOTAL TRAINS */}
+
       <Text style={styles.listTitle}>
-        {t.totalTrains}: {trainList.length}
+        {t.totalTrains}: {filteredTrains.length}
       </Text>
 
-      {/* Train List */}
-      {trainList.map((train, index) => (
-        <View key={index} style={styles.trainCard}>
+      {/* TRAIN LIST */}
+
+      {filteredTrains.map((train) => (
+        <View
+          key={train.number}
+          style={styles.trainCard}
+        >
 
           <Text style={styles.trainName}>
             {train.number} - {train.name}
@@ -234,8 +403,92 @@ const TrainScreen = ({ navigation }) => {
             {train.from} → {train.to}
           </Text>
 
+          {/* EDIT BUTTON */}
+
+          {mode === 'edit' && editingTrain === null && (
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={() => startEdit(train)}
+            >
+              <Text style={styles.actionText}>
+                ✏️ Edit
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          {/* DELETE BUTTON */}
+
+          {mode === 'delete' && (
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => deleteTrain(train)}
+            >
+              <Text style={styles.actionText}>
+                🗑️ Delete
+              </Text>
+            </TouchableOpacity>
+          )}
+
         </View>
       ))}
+
+      {/* EDIT FORM */}
+
+      {editingTrain && (
+        <View style={styles.editBox}>
+
+          <Text style={styles.editTitle}>
+            Edit Train
+          </Text>
+
+          <TextInput
+            style={styles.input}
+            placeholder="Train Number"
+            value={editNumber}
+            onChangeText={setEditNumber}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Train Name"
+            value={editName}
+            onChangeText={setEditName}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="From"
+            value={editFrom}
+            onChangeText={setEditFrom}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="To"
+            value={editTo}
+            onChangeText={setEditTo}
+          />
+
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={saveEdit}
+          >
+            <Text style={styles.buttonText}>
+              💾 Save Changes
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={() => setEditingTrain(null)}
+          >
+            <Text style={styles.buttonText}>
+              Cancel
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      )}
 
     </ScrollView>
   );
@@ -246,6 +499,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F6FA',
+  },
+
+  content: {
+    padding: 20,
+    paddingBottom: 40,
   },
 
   title: {
@@ -298,9 +556,67 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
 
-  content: {
-    padding: 20,
-    paddingBottom: 40,
+  input: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 10,
+    padding: 14,
+    fontSize: 16,
+    marginBottom: 15,
+  },
+
+  editButton: {
+    backgroundColor: '#FFA000',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+
+  deleteButton: {
+    backgroundColor: '#D32F2F',
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginTop: 12,
+  },
+
+  actionText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+
+  editBox: {
+    backgroundColor: '#fff',
+    padding: 18,
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 30,
+    elevation: 3,
+  },
+
+  editTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 15,
+    color: '#222',
+  },
+
+  saveButton: {
+    backgroundColor: '#2E7D32',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+
+  cancelButton: {
+    backgroundColor: '#757575',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
   },
 
 });

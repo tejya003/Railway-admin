@@ -1,46 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
+  TextInput,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 
-const BookingScreen = ({ navigation }) => {
+const SearchBookingScreen = () => {
+  const [bookingId, setBookingId] = useState('');
+
+  const handleSearch = () => {
+    if (bookingId.trim() === '') {
+      alert('Please enter Booking ID');
+      return;
+    }
+
+    alert('Searching Booking: ' + bookingId);
+  };
+
   return (
     <View style={styles.container}>
 
       <Text style={styles.title}>
-        Booking Management
+        Search Booking
       </Text>
 
-      {/* View Bookings */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('ViewBookings')}
-      >
-        <Text style={styles.buttonText}>
-          📋 View Bookings
-        </Text>
-      </TouchableOpacity>
+      <TextInput
+        style={styles.input}
+        placeholder="Enter Booking ID"
+        value={bookingId}
+        onChangeText={setBookingId}
+      />
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('SearchBooking')}
+        onPress={handleSearch}
       >
         <Text style={styles.buttonText}>
-          🔍 Search Booking
+          🔍 Search
         </Text>
       </TouchableOpacity>
-
-     <TouchableOpacity
-  style={styles.button}
-  onPress={() => navigation.navigate('CancelBooking')}
->
-  <Text style={styles.buttonText}>
-    ❌ Cancel Booking
-  </Text>
-</TouchableOpacity>
 
     </View>
   );
@@ -61,12 +61,20 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
 
+  input: {
+    backgroundColor: '#fff',
+    height: 52,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    fontSize: 16,
+    marginBottom: 15,
+  },
+
   button: {
     backgroundColor: '#1E88E5',
     padding: 16,
     borderRadius: 10,
     alignItems: 'center',
-    marginBottom: 15,
   },
 
   buttonText: {
@@ -76,4 +84,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BookingScreen;
+export default SearchBookingScreen;
